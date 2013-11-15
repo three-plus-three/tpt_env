@@ -22,15 +22,15 @@ iRet = 0
 
 Select Case strAction
     Case "start"
-         iRet = DoCmd("net start postgresql-x64-9.2")
+         iRet = DoCmd("net start postgresql-x64-9.3")
     Case "stop"
-         iRet = DoCmd("net stop postgresql-x64-9.2")
+         iRet = DoCmd("net stop postgresql-x64-9.3")
     Case "reload"
-         iRet = DoCmd("""C:\Program Files\PostgreSQL\9.2\bin\pg_ctl.exe"" -D ""F:\data\pg"" reload")
+         iRet = DoCmd("""C:\Program Files\PostgreSQL\9.3\bin\pg_ctl.exe"" -D ""C:\Program Files\PostgreSQL\9.3\data"" reload")
     Case "restart"
-	     iRet = DoCmd("net stop postgresql-x64-9.2")
+	     iRet = DoCmd("net stop postgresql-x64-9.3")
 		 If iRet = 0 Then
-		     iRet = DoCmd("net start postgresql-x64-9.2")
+		     iRet = DoCmd("net start postgresql-x64-9.3")
 		 End If
     Case Else
         usage

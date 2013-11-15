@@ -1,4 +1,4 @@
-/* contrib/pageinspect/pageinspect--1.0.sql */
+/* contrib/pageinspect/pageinspect--1.1.sql */
 
 -- complain if script is sourced in psql, rather than via CREATE EXTENSION
 \echo Use "CREATE EXTENSION pageinspect" to load this file. \quit
@@ -21,7 +21,7 @@ LANGUAGE C STRICT;
 --
 CREATE FUNCTION page_header(IN page bytea,
     OUT lsn text,
-    OUT tli smallint,
+    OUT checksum smallint,
     OUT flags smallint,
     OUT lower smallint,
     OUT upper smallint,
