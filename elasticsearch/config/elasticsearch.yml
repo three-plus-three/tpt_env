@@ -146,7 +146,7 @@ node.name: "tpt"
 
 # Path to directory where to store index data allocated for this node.
 #
-path.data: data/es
+path.data: ../../data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (a la RAID 0) on a file level, favouring locations with most free
@@ -213,7 +213,7 @@ path.data: data/es
 
 # Set a custom port for the node to node communication (9300 by default):
 #
-# transport.tcp.port: 9300
+transport.tcp.port: 39300
 
 # Enable compression for all communication between nodes (disabled by default):
 #
@@ -221,7 +221,7 @@ path.data: data/es
 
 # Set a custom port to listen for HTTP traffic:
 #
-# http.port: 9200
+http.port: 39200
 
 # Set a custom allowed content length:
 #
