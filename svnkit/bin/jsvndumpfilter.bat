@@ -50,8 +50,8 @@ set BASEDIR=%BASEDIR%\..
 :repoSetup
 
 
-if "%JAVACMD%"=="" set JAVACMD=java
-if not "%JAVA_HOME%"=="" set JAVACMD="%JAVA_HOME%\bin\%JAVACMD%"
+if "%~JAVACMD%"=="" set JAVACMD=java
+if not "%~JAVA_HOME%"=="" set JAVACMD="%JAVA_HOME%\bin\%JAVACMD%"
 
 if "%SVNKIT_LIB%"=="" set SVNKIT_LIB=%BASEDIR%\lib
 
