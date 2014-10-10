@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 set ERROR_CODE=0
 
@@ -49,9 +49,11 @@ set BASEDIR=%BASEDIR%\..
 
 :repoSetup
 
+if DEFINED JAVACMD set JAVACMD=%JAVACMD:"=%
+if DEFINED JAVA_HOME set JAVA_HOME=%JAVA_HOME:"=%
 
-if "%~JAVACMD%"=="" set JAVACMD=java
-if not "%~JAVA_HOME%"=="" set JAVACMD="%JAVA_HOME%\bin\%JAVACMD%"
+if "%JAVACMD%"=="" set JAVACMD=java
+if not "%JAVA_HOME%"=="" set JAVACMD="%JAVA_HOME%\bin\%JAVACMD%"
 
 if "%SVNKIT_LIB%"=="" set SVNKIT_LIB=%BASEDIR%\lib
 
