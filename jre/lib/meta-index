@@ -2,58 +2,54 @@
 % WARNING: this file is auto-generated; do not edit
 % UNSUPPORTED: this file and its format may change and/or
 %   may be removed in a future release
-! alt-rt.jar
-java/math
-java/util
 # charsets.jar
-META-INF/services/java.nio.charset.spi.CharsetProvider
 sun/nio
 sun/awt
-sun/io
 # jce.jar
 javax/crypto
 sun/security
 META-INF/ORACLE_J.RSA
 META-INF/ORACLE_J.SF
-! jfr.jar
+# jfr.jar
 oracle/jrockit/
-com/oracle/
+jdk/jfr
+com/oracle/jrockit/
 ! jsse.jar
 sun/security
 com/sun/net/
 ! management-agent.jar
 @ resources.jar
 com/sun/java/util/jar/pack/
+META-INF/services/sun.util.spi.XmlPropertiesProvider
 META-INF/services/javax.print.PrintServiceLookup
 com/sun/corba/
 META-INF/services/javax.sound.midi.spi.SoundbankReader
 sun/print
 META-INF/services/javax.sound.midi.spi.MidiFileReader
+META-INF/services/sun.java2d.cmm.CMMServiceProvider
 javax/swing
 META-INF/services/javax.sound.sampled.spi.AudioFileReader
 META-INF/services/javax.sound.midi.spi.MidiDeviceProvider
 sun/net
 META-INF/services/javax.sound.sampled.spi.AudioFileWriter
 com/sun/imageio/
-com/sun/servicetag/
 META-INF/services/sun.java2d.pipe.RenderingEngine
-META-INF/services/java.sql.Driver
-sun/org
+META-INF/mimetypes.default
 META-INF/services/javax.sound.midi.spi.MidiFileWriter
 sun/rmi
 javax/sql
-META-INF/services/javax.script.ScriptEngineFactory
+META-INF/services/com.sun.tools.internal.ws.wscompile.Plugin
 com/sun/rowset/
 META-INF/services/javax.print.StreamPrintServiceFactory
+META-INF/mailcap.default
 java/lang
 sun/text
 javax/xml
 META-INF/services/javax.sound.sampled.spi.MixerProvider
-META-INF/services/sun.java2d.cmm.PCMM
+com/sun/xml/
 META-INF/services/com.sun.tools.internal.xjc.Plugin
 com/sun/java/swing/
 com/sun/jndi/
-com/sun/xml/
 com/sun/org/
 META-INF/services/javax.sound.sampled.spi.FormatConversionProvider
 ! rt.jar
@@ -70,25 +66,22 @@ com/sun/management/
 sun/
 com/sun/jmx/
 com/sun/demo/
-com/sun/servicetag/
 com/sun/imageio/
 com/sun/net/
 com/sun/rmi/
 org/w3c/
 com/sun/swing/
 com/sun/activation/
-com/sun/script/
 com/sun/nio/
 com/sun/rowset/
 org/jcp/
 com/sun/istack/
+jdk/
 com/sun/naming/
 org/xml/
 org/omg/
 com/sun/security/
 com/sun/image/
-sunw/util/
-sunw/io/
 com/sun/xml/
 com/sun/java/swing/
 com/oracle/
