@@ -156,11 +156,11 @@ path.data: ../../data
 
 # Path to temporary files:
 #
-# path.work: /path/to/work
+path.work: ../../elasticsearch_tmp
 
 # Path to log files:
 #
-# path.logs: /path/to/logs
+path.logs: ../../logs
 
 # Path to where plugins are installed:
 #
