@@ -34,7 +34,7 @@ appender:
   file:
     type: rollingFile
     file: ${path.logs}/${cluster.name}_daemon.log
-    maxFileSize: 5M
+    maxFileSize: 5MB
     MaxBackupIndex: 5
     layout:
       type: pattern
@@ -43,7 +43,7 @@ appender:
   index_search_slow_log_file:
     type: rollingFile
     file: ${path.logs}/${cluster.name}_index_search_slowlog.log
-    maxFileSize: 5M
+    maxFileSize: 5MB
     MaxBackupIndex: 5
     layout:
       type: pattern
@@ -52,7 +52,7 @@ appender:
   index_indexing_slow_log_file:
     type: rollingFile
     file: ${path.logs}/${cluster.name}_index_indexing_slowlog.log
-    maxFileSize: 5M
+    maxFileSize: 5MB
     MaxBackupIndex: 5
     layout:
       type: pattern
