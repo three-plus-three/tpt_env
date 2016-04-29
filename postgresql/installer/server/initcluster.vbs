@@ -1,4 +1,4 @@
-' Copyright (c) 2012, EnterpriseDB Corporation.  All rights reserved
+' Copyright (c) 2012-2016, EnterpriseDB Corporation.  All rights reserved
 On Error Resume Next
 
 ' PostgreSQL server cluster init script for Windows
@@ -106,6 +106,7 @@ Function DoCmd(strCmd)
     Dim objBatchFile
     Set objBatchFile = objTempFolder.CreateTextFile(strBatchFile, True)
     objBatchFile.WriteLine "@ECHO OFF"
+    objBatchFile.WriteLine "CHCP " & objShell.RegRead("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage\ACP")
     objBatchFile.WriteLine strCmd & " > """ & strOutputFile & """ 2>&1"
     objBatchFile.WriteLine "EXIT /B %ERRORLEVEL%"
     objBatchFile.Close
@@ -176,7 +177,7 @@ Else
 End If
 
 
-Sub AclCheck(strThisDir, userName)
+Sub AclCheck(strThisDir, userName, index)
     WScript.Echo "Called AclCheck(" & strThisDir & ")"
     If strThisDir = strProgramFiles Then
         WScript.Echo "Skipping the ACL check on " & strThisDir
@@ -187,10 +188,20 @@ Sub AclCheck(strThisDir, userName)
     Else
         If IsVistaOrNewer() = True Then
             WScript.Echo "Executing icacls to ensure the " & userName & " account can read the path " & strThisDir
-            iRet = DoCmd("icacls """ & strThisDir & """ /grant """ & userName & """:(NP)(RX)")
+            If index <> 0 Then
+               iRet = DoCmd("icacls """ & strThisDir & """ /grant """ & userName & """:(NP)(RX)")
+            Else
+               ' Drive letter must not be surronded by double-quotes and ends with slash (\)
+               ' "icacls" fails on the drives with (NP) flag
+               iRet = DoCmd("icacls " & strThisDir & "\ /grant """ & userName & """:(NP)(RX)")
+            End If
         Else
             WScript.Echo "Executing cacls to ensure the " & userName & " account can read the path " & strThisDir
-            iRet = DoCmd("echo y|cacls """ & strThisDir & """ /E /G """ & userName & """:R")
+            If index <> 0 Then
+                iRet = DoCmd("echo y|cacls """ & strThisDir & """ /E /G """ & userName & """:R")
+            Else
+                iRet = DoCmd("echo y|cacls " & strThisDir & "\ /E /G """ & userName & """:R")
+            End If
         End If
     End If
     if iRet <> 0 Then
@@ -200,30 +211,58 @@ End Sub
 
 ' dirname of strDataDir'
 strParentOfDataDir = objFSO.GetParentFolderName(strDataDir)
+WScript.Echo "strParentOfDataDir" & strParentOfDataDir
+
+
+
+loggedInUser=objNetwork.UserDomain & "\" & objNetwork.Username
+WScript.Echo "logged in user" & loggedInUser
 
 If boolCheckAcl Then
     ' Loop up the directory path, and ensure we have read permissions
     ' on the entire path leading to the data directory
     arrDirs = Split(strParentOfDataDir, "\")
     nDirs = UBound(arrDirs)
+    WScript.Echo "nDirs" & nDirs
     strThisDir = ""
     
     For d = 0 To nDirs
         strThisDir = strThisDir & arrDirs(d)
-        Call AclCheck (strThisDir,objNetwork.Username)
+        Call AclCheck (strThisDir,loggedInUser,d)
     
         strThisDir = strThisDir & "\"
     Next
+    WScript.Echo "Parent of Data ("& strParentOfDataDir &")"
+    WScript.Echo "Install Dir ("& strInstallDir &")"
+    
+         
 End If
 
-Call AclCheck(strDataDir,objNetwork.Username)
+
+Call AclCheck(strDataDir,loggedInUser,1)
+
+If boolCheckAcl Then
+    If IsVistaOrNewer() = True Then
+        WScript.Echo "Granting the " & loggedInUser & " permissions on " & strInstallDir
+        
+        iRet = DoCmd("icacls """ & strInstallDir & """ /T /grant:r """ & loggedInUser & """:(OI)(CI)(RX)")
+    Else
+        
+        iRet = DoCmd("echo y|cacls """ & strInstallDir & """ /E /T /G """ & loggedInUser & """:F")
+    End If
+    if iRet <> 0 Then
+        WScript.Echo "Failed to ensure the Install directory is accessible (" & strInstallDir & ")"
+    End If
+End If
+
+
 
 If IsVistaOrNewer() = True Then
-    WScript.Echo "Ensuring we can write to the data directory (using icacls) to  " & objNetwork.Username & ":"
-    iRet = DoCmd("icacls """ & strDataDir & """ /T /grant:r """ & objNetwork.Username & """:(OI)(CI)F")
+    WScript.Echo "Ensuring we can write to the data directory (using icacls) to  " & loggedInUser & ":"
+    iRet = DoCmd("icacls """ & strDataDir & """ /T /grant:r """ & loggedInUser & """:(OI)(CI)F")
 Else
     WScript.Echo "Ensuring we can write to the data directory (using cacls):"
-    iRet = DoCmd("echo y|cacls """ & strDataDir & """ /E /T /G """ & objNetwork.Username & """:F")
+    iRet = DoCmd("echo y|cacls """ & strDataDir & """ /E /T /G """ & loggedIUser & """:F")
 End If
 if iRet <> 0 Then
     WScript.Echo "Failed to ensure the data directory is accessible (" & strDataDir & ")"
@@ -289,13 +328,27 @@ If boolCheckAcl Then
     
     For d = 0 To nDirs
         strThisDir = strThisDir & arrDirs(d)
-        Call AclCheck(strThisDir,strOSUsername)
+        Call AclCheck(strThisDir,strOSUsername,d)
     
         strThisDir = strThisDir & "\"
     Next
 End If
 
-Call AclCheck(strDataDir,strOSUsername)
+Call AclCheck(strDataDir,strOSUsername,1)
+
+If boolCheckAcl Then
+    If IsVistaOrNewer() = True Then
+        WScript.Echo "Granting " & strOSUsername & " permissions on " & strInstallDir
+        
+        iRet = DoCmd("icacls """ & strInstallDir & """ /T /grant:r """ & strOSUsername & """:(OI)(CI)(RX)")
+    Else
+        
+        iRet = DoCmd("echo y|cacls """ & strInstallDir & """ /E /T /G """ & strOSUsername & """:F")
+    End If
+    if iRet <> 0 Then
+        WScript.Echo "Failed to ensure the Install directory is accessible (" & strInstallDir & ")"
+    End If
+End If
 
 ' Create the <DATA_DIR>\pg_log directory (if not exists)
 ' Create it before updating the permissions, so that it will also get affected

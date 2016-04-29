@@ -1,4 +1,4 @@
-' Copyright (c) 2012, EnterpriseDB Corporation.  All rights reserved
+' Copyright (c) 2012-2016, EnterpriseDB Corporation.  All rights reserved
 On Error Resume Next
 
 ' PostgreSQL server control script for Windows
@@ -22,15 +22,15 @@ iRet = 0
 
 Select Case strAction
     Case "start"
-         iRet = DoCmd("net start postgresql-x64-9.3")
+         iRet = DoCmd("net start postgresql-x64-9.5")
     Case "stop"
-         iRet = DoCmd("net stop postgresql-x64-9.3")
+         iRet = DoCmd("net stop postgresql-x64-9.5")
     Case "reload"
-         iRet = DoCmd("""C:\Program Files\PostgreSQL\9.3\bin\pg_ctl.exe"" -D ""C:\Program Files\PostgreSQL\9.3\data"" reload")
+         iRet = DoCmd("""C:\Program Files\PostgreSQL\9.5\bin\pg_ctl.exe"" -D ""C:\Program Files\PostgreSQL\9.5\data"" reload")
     Case "restart"
-	     iRet = DoCmd("net stop postgresql-x64-9.3")
+	     iRet = DoCmd("net stop postgresql-x64-9.5")
 		 If iRet = 0 Then
-		     iRet = DoCmd("net start postgresql-x64-9.3")
+		     iRet = DoCmd("net start postgresql-x64-9.5")
 		 End If
     Case Else
         usage

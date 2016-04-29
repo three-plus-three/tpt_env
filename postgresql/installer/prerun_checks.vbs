@@ -1,4 +1,4 @@
-' Copyright (c) 2012, EnterpriseDB Corporation.  All rights reserved
+' Copyright (c) 2012-2016, EnterpriseDB Corporation.  All rights reserved
 ' VBscript test script - check that the scripting host appears functional
 
 Set WshShell = WScript.CreateObject("WScript.Shell")
@@ -50,7 +50,7 @@ Function IsPathWriteable(Path)' As Boolean
 	Dim fso 'As Scripting.FileSystemObject
 	Dim Temp_Path 'As String
 	Set fso = CreateObject("Scripting.FileSystemObject")
-	Temp_Path = Path & "\" & fso.GetTempName() & ".tmp"
+	Temp_Path = Path & "\" & fso.GetTempName()
 	On Error Resume Next
 	fso.CreateTextFile Temp_Path
 	IsPathWriteable = Err.Number = 0
