@@ -20,7 +20,7 @@ if "%CLIENTENCODING_JP%"=="1" SET PGCLIENTENCODING=SJIS
 if "%CLIENTENCODING_JP%"=="1" SET /P PGCLIENTENCODING="Client Encoding [%PGCLIENTENCODING%]: "
 
 REM Run psql
-"C:\Program Files\PostgreSQL\9.5\bin\psql.exe" -h %server% -U %username% -d %database% -p %port%
+"%~dp0..\bin\psql.exe" -h %server% -U %username% -d %database% -p %port%
 
 pause
 
