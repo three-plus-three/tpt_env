@@ -21,9 +21,9 @@ setlocal
 @REM Set the current directory to the installation directory
 set INSTALLDIR=%~dp0
 
-set JAVA_CMD="..\..\runtime_env\jre\bin\java.exe"
+set JAVA_CMD="%INSTALLDIR%\..\jre\bin\java.exe"
 
-%JAVA_CMD% -cp "%INSTALLDIR%\lib\*;%INSTALLDIR%\drivers\*" org.flywaydb.commandline.Main %*
+%JAVA_CMD% -cp "%INSTALLDIR%\lib\*;%INSTALLDIR%\drivers\*" org.flywaydb.commandline.Main %* -jarDirs="%INSTALLDIR%\..\..\lib\server_biz"
 
 @REM Exit using the same code returned from Java
 EXIT /B %ERRORLEVEL%
