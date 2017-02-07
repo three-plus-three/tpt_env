@@ -21,7 +21,19 @@ setlocal
 @REM Set the current directory to the installation directory
 set INSTALLDIR=%~dp0
 
-set JAVA_CMD="%INSTALLDIR%\..\jre\bin\java.exe"
+if EXIST "%INSTALLDIR%\..\jre\bin\java.exe" (
+  set JAVA_CMD="%INSTALLDIR%\..\jre\bin\java.exe"
+) ELSE if EXIST "%INSTALLDIR%\..\java\bin\java.exe" (
+  set JAVA_CMD="%INSTALLDIR%\..\java\bin\java.exe"
+) ELSE if EXIST "%INSTALLDIR%\..\jdk\bin\java.exe" (
+  set JAVA_CMD="%INSTALLDIR%\..\jdk\bin\java.exe"
+) ELSE (
+ if "%JAVA_HOME%" EQU "" (
+  JAVA_CMD=java
+ ) ELSE (
+  JAVA_CMD="%JAVA_HOME%\bin\java.exe"
+ )
+)
 
 %JAVA_CMD% -cp "%INSTALLDIR%\lib\*;%INSTALLDIR%\drivers\*" org.flywaydb.commandline.Main %* -jarDirs="%INSTALLDIR%\..\..\lib\server_biz"
 

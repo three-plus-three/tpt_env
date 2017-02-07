@@ -39,8 +39,12 @@ done
 # Detect the installation directory
 INSTALLDIR=`dirname "$PRG"`
 
-if [ -x "$INSTALLDIR/jre/bin/java" ]; then
- JAVA_CMD=$INSTALLDIR/jre/bin/java
+if [ -x "$INSTALLDIR/../jre/bin/java" ]; then
+ JAVA_CMD=$INSTALLDIR/../jre/bin/java
+elif [ -x "$INSTALLDIR/../java/bin/java" ]; then
+ JAVA_CMD=$INSTALLDIR/../java/bin/java
+elif [ -x "$INSTALLDIR/../jdk/bin/java" ]; then
+ JAVA_CMD=$INSTALLDIR/../jdk/bin/java
 else
  # Use JAVA_HOME if it is set
  if [ -z "$JAVA_HOME" ]; then
@@ -61,7 +65,7 @@ if $cygwin; then
   CP=$(cygpath -pw "$CP")
 fi
 
-"$JAVA_CMD" $JAVA_ARGS -cp "$CP" org.flywaydb.commandline.Main "$@" -jarDirs="%INSTALLDIR%/../../lib/server_biz"
+"$JAVA_CMD" $JAVA_ARGS -cp "$CP" org.flywaydb.commandline.Main "$@" -jarDirs="$INSTALLDIR/../../lib/server_biz"
 
 # Exit using the same code returned from Java
 exit $?
