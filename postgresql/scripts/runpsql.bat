@@ -1,5 +1,5 @@
 @echo off
-REM Copyright (c) 2012-2016, EnterpriseDB Corporation.  All rights reserved
+REM Copyright (c) 2012-2017, EnterpriseDB Corporation.  All rights reserved
 
 REM PostgreSQL server psql runner script for Windows
 
@@ -9,7 +9,7 @@ SET /P server="Server [%server%]: "
 SET database=postgres
 SET /P database="Database [%database%]: "
 
-SET port=35433
+SET port=5432
 SET /P port="Port [%port%]: "
 
 SET username=postgres
@@ -23,4 +23,5 @@ REM Run psql
 "%~dp0..\bin\psql.exe" -h %server% -U %username% -d %database% -p %port%
 
 pause
+
 
